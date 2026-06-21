@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { Table, Button, Modal, Input, Typography, Space, Tag, Avatar, Select } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, ExportOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, ExportOutlined, UserOutlined } from "@ant-design/icons";
 import { useToast } from "../../components/ToastContext";
 
 const { Title, Text } = Typography;
