@@ -1,31 +1,58 @@
 const mongoose = require("mongoose");
 
-const scoreSchema = new mongoose.Schema({
-  studentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Student",
-    required: true,
-  },
+const scoreSchema = new mongoose.Schema(
+  {
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+      required: true,
+    },
 
-  subject: {
-    type: String,
-    required: true,
-  },
+    subjectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
+      required: true,
+    },
 
-  score15m: {
-    type: Number,
-    default: 0,
-  },
+    teacherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Teacher",
+      required: true,
+    },
 
-  scoreMid: {
-    type: Number,
-    default: 0,
-  },
+    assignment: {
+      type: Number,
+      default: 0,
+    },
 
-  scoreFinal: {
-    type: Number,
-    default: 0,
+    midterm: {
+      type: Number,
+      default: 0,
+    },
+
+    final: {
+      type: Number,
+      default: 0,
+    },
+
+    average: {
+      type: Number,
+      default: 0,
+    },
+
+    semester: {
+      type: Number,
+      required: true,
+    },
+
+    schoolYear: {
+      type: String,
+      required: true,
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("Score", scoreSchema);
