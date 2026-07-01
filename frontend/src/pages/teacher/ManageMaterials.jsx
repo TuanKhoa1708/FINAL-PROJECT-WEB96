@@ -1,33 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Table, Button, Modal, Input } from "antd";
+import { apiFetch } from "../../utils/api";
 
 function ManageMaterials() {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState(null);
 
-  const API =
-    "https://mindx-mockup-server.vercel.app/api/resources/materials?apiKey=69ca789b3bb225ca08190764";
-
-  useEffect(() => {
-    fetchMaterials();
-  }, []);
-
-  const fetchMaterials = async () => {
+  const fetchMaterials = useCallback(async () => {
     try {
-      const res = await fetch(API);
+      const res = await apiFetch("/teacher/materials");
       const data = await res.json();
-      setMaterials(data.data.data);
+      setMaterials(data.data || []);
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchMaterials();
+  }, [fetchMaterials]);
 
   const handleAdd = async () => {
     try {
-      const res = await fetch(API, {
+      const res = await apiFetch("/teacher/materials", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,19 +44,16 @@ function ManageMaterials() {
 
   const handleUpdate = async () => {
     try {
-      await fetch(
-        `https://mindx-mockup-server.vercel.app/api/resources/materials/${editingItem._id}?apiKey=69ca789b3bb225ca08190764`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(editingItem),
-        }
-      );
+      await apiFetch(`/teacher/materials/${editingItem._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editingItem),
+      });
 
       const updatedList = materials.map((item) =>
-        item._id === editingItem._id ? editingItem : item
+        item._id === editingItem._id ? editingItem : item,
       );
 
       setMaterials(updatedList);
@@ -73,12 +68,9 @@ function ManageMaterials() {
       if (!window.confirm("Are you sure you want to delete this material?"))
         return;
 
-      await fetch(
-        `https://mindx-mockup-server.vercel.app/api/resources/materials/${_id}?apiKey=69ca789b3bb225ca08190764`,
-        {
-          method: "DELETE",
-        }
-      );
+      await apiFetch(`/teacher/materials/${_id}`, {
+        method: "DELETE",
+      });
 
       setMaterials(materials.filter((item) => item._id !== _id));
     } catch (err) {

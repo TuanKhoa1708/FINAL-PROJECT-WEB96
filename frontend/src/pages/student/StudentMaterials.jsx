@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Card } from "antd";
+import { buildOriginUrl } from "../../utils/api";
+
+const API = buildOriginUrl(
+  "/api/resources/materials?apiKey=69ca789b3bb225ca08190764",
+);
 
 function StudentMaterials() {
   const [materials, setMaterials] = useState([]);
-
-  const API =
-    "https://mindx-mockup-server.vercel.app/api/resources/materials?apiKey=69ca789b3bb225ca08190764";
 
   useEffect(() => {
     const fetchMaterials = async () => {
